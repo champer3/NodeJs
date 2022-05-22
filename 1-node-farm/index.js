@@ -57,7 +57,6 @@ const slugs = dataObj.map((el) => slugify(el.productName, { lower: true }));
 
 const server = http.createServer((req, res) => {
   const { query, pathname } = url.parse(req.url, true);
-  console.log(req.url);
 
   //Overview Page
   if (pathname === '/' || pathname === '/overview') {
