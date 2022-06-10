@@ -134,7 +134,6 @@ tourSchema.pre('aggregate', function (next) {
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
-
 // const testTour = new Tour({
 //   name: 'The Park Campper',
 //   price: 997,
