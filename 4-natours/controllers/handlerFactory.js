@@ -34,6 +34,7 @@ exports.updateOne = (Model) =>
       },
     });
   });
+
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
@@ -46,10 +47,10 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, popOption) =>
+exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
-    if (popOption) query = query.populate(popOption);
+    if (popOptions) query = query.populate(popOptions);
     const doc = await query;
 
     if (!doc) {
@@ -59,14 +60,14 @@ exports.getOne = (Model, popOption) =>
     res.status(200).json({
       status: 'success',
       data: {
-        date: doc,
+        data: doc,
       },
     });
   });
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviewson tour
+    // To allow for nested GET reviews on tour (hack)
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
 
@@ -75,14 +76,15 @@ exports.getAll = (Model) =>
       .sort()
       .limitFields()
       .paginate();
-    const docs = await features.query.explain();
+    // const doc = await features.query.explain();
+    const doc = await features.query;
 
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
-      results: docs.length,
+      results: doc.length,
       data: {
-        date: docs,
+        data: doc,
       },
     });
   });
